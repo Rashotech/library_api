@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  app:
+    container_name: app
+    restart: always
+    build:
+      context: .
+      args: 
+        NODE_ENV: production
+    environment: 
+      - PORT=3000 
+      - DB_STRING_PROD=${DB_STRING_PROD}
+      - CLIENT_URL=${CLIENT_URL}
+      - NODE_ENV=${NODE_ENV}
+    ports: 
+      - "3000:3000" 
+    links: 
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "27017:27017"      
